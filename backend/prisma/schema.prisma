@@ -1,0 +1,45 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+}
+
+model Users {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Stocks {
+  id     String @id @default(uuid())
+  name   String
+  symbol String @unique
+}
+
+model Orders {
+  id        String   @id @default(uuid())
+  userId    String
+  stockId   String
+  quantity  Int
+  price     Float
+  type      String
+  status    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Fills {
+  id        String   @id @default(uuid())
+  orderId   String
+  stockId   String
+  quantity  Int
+  price     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
