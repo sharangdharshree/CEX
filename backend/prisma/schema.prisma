@@ -1,6 +1,5 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -10,7 +9,10 @@ generator client {
 
 model Users {
   id        String   @id @default(uuid())
+  email     String   @unique
   username  String   @unique
+  firstName String
+  lastName  String
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -20,6 +22,8 @@ model Stocks {
   id     String @id @default(uuid())
   name   String
   symbol String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Orders {
@@ -29,6 +33,8 @@ model Orders {
   quantity  Int
   price     Float
   type      String
+  side      String
+  filledQuantity Int
   status    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -40,6 +46,22 @@ model Fills {
   stockId   String
   quantity  Int
   price     Float
+  type      String
+  side      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Balances {
+  id        String   @id @default(uuid())
+  userId    String
+  stockId   String
+  quantity  Int
+  lockedQuantity Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// add candle charts in later migrations
+// generally 1min chart data is stored in the database
+// and others are created by tools like timeScaleDB, materialized views
