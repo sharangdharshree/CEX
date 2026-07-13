@@ -14,8 +14,49 @@ model Users {
   firstName String
   lastName  String
   password  String
+
+  sessions Sessions[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([username])
+}
+
+enum SessionStatus {
+  ACTIVE
+  REVOKED
+  EXPIRED
+}
+
+model Sessions {
+  id       String   @id @default(uuid())
+  userId   String   
+  user     Users    @relation(fields: [userId], references: [id])
+  username String
+
+  // Security tokens
+  refreshToken     String       
+  status           SessionStatus @default(ACTIVE)
+  // authMethod       String        // e.g., "PASSWORD", "GOOGLE_SSO", "PASSKEY"
+  
+  // Geolocation & Device Metadata
+  // ipAddress        String?
+  // country          String?       // Parsed from IP on login
+  // city             String?       // Parsed from IP on login
+  // userAgent        String?       // Raw browser string
+  // deviceName       String?       // User-customized label (Optional)
+  
+  // Fine-grained tracking timers
+  revokedAt        DateTime?       
+  expiresAt        DateTime      // Hard cutoff date/time
+  // lastUsedAt       DateTime      @default(now()) // Updated on every API interaction
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([username])
 }
 
 model Stocks {
@@ -24,6 +65,8 @@ model Stocks {
   symbol String @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([symbol])
 }
 
 model Orders {

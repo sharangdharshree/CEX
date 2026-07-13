@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Users: 'Users',
+  Sessions: 'Sessions',
   Stocks: 'Stocks',
   Orders: 'Orders',
   Fills: 'Fills',
@@ -86,6 +87,21 @@ export const UsersScalarFieldEnum = {
 } as const
 
 export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
+export const SessionsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  username: 'username',
+  refreshToken: 'refreshToken',
+  status: 'status',
+  revokedAt: 'revokedAt',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SessionsScalarFieldEnum = (typeof SessionsScalarFieldEnum)[keyof typeof SessionsScalarFieldEnum]
 
 
 export const StocksScalarFieldEnum = {
@@ -158,4 +174,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
